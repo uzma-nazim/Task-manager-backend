@@ -1,21 +1,17 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import envVars from "./env";
 
 const connectDB = async (): Promise<typeof mongoose | undefined> => {
   try {
-    // Add additional connection options for better stability
     const options = {
       serverSelectionTimeoutMS: 10000, // 10 seconds timeout for server selection
       socketTimeoutMS: 45000, // 45 seconds timeout for operations
     };
-    
-    await mongoose.connect(process.env.MONGO_URI!, options);
-
-    
-    return mongoose;
+    const conn = await mongoose.connect(envVars.MONGO_URI, options);
+    return conn;
   } catch (error) {
-    
-    return undefined;
+    throw error;
   }
 };
 
-export default connectDB; 
+export default connectDB;
